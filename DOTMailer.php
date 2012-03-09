@@ -7,9 +7,10 @@
  * WILL be sent as a multipart. If you do have that situation though, you should probably not
  * be using this. As it is a waste of resources when you can do a simple mail()
  * 
- * AUTHOR: Joseph Dotson (THTime)
- * VERSION: RC 1.0.1
+ * @author: Joseph Dotson (THTime)
+ * @version: 1.0.1
  * 
+ * @copyright
  * Copyright 2012 Joseph Dotson
  * 
  * DOTMailer is free software: you can redistribute it and/or modify
@@ -40,13 +41,16 @@ class DOTMailer
 	protected $is_multi_part = false;
 
 	// pubic vars
-	public $From = null;
-	public $Body = null;
-	public $Subject = "";
-	public $IsHTML = false;
-	public $AltText = "This is a MIME encoded message."; // this will only be sent in an HTML message
+	public $From = null; //!< The From email
+	public $Body = null; //!< The Body of the email
+	public $Subject = ""; //!< The Subject of the email (optional)
+	public $IsHTML = false; //!< Whether or not the email is HTML
+	public $AltText = "This is a MIME encoded message."; //!< The HTML email alt text
 
-	// the send function...
+	/**
+	 * this function will generate and send the email.
+	 * it is NON destructive. so if it fails you can try again after you fix it
+	 */
 	public function Send()
 	{
 		if($this->to == null)
@@ -66,7 +70,10 @@ class DOTMailer
 			throw new Exception("Mail failed to send!", 1);
 	}
 
-	// generation functions
+	/**
+	 * this is the function which generates the To part of the email
+	 * @see Send
+	 */
 	protected function generate_to()
 	{
 		$buff = "";
@@ -80,7 +87,10 @@ class DOTMailer
 		return $to;
 	}
 
-
+	/**
+	 * this is the function which generates the To part of the email
+	 * @see Send
+	 */
 	protected function generate_header()
 	{
 		$header = "";
@@ -124,6 +134,10 @@ class DOTMailer
 		return $header;
 	}
 
+	/**
+	 * this is the function which chooses the content type
+	 * @see Send
+	 */
 	protected function get_content_type()
 	{
 		$header = "";
@@ -142,6 +156,10 @@ class DOTMailer
 		return $header;
 	}
 
+	/**
+	 * this is the function which generates the Body part of the email
+	 * @see Send
+	 */
 	protected function generate_body()
 	{
 		if(!$this->is_multi_part && !$this->IsHTML)
@@ -189,9 +207,11 @@ class DOTMailer
 		return $body;
 	}
 
-	/*
-	This function adds a To to the mail, at least one of these is required
-	*/
+	/**
+	 * This function adds a To to the mail, at least one of these is required
+	 * @param String $email the email to send the mail to
+	 * @param String $name the name of the individual
+	 */
 	public function AddTo($email, $name = "")
 	{
 		if($this->to == null)
@@ -202,9 +222,11 @@ class DOTMailer
 		$this->to[] = $tmp;
 	}
 
-	/*
-	this function adds a Cc to the mail, this is optional
-	*/
+	/**
+	 * this function adds a Cc to the mail, this is optional
+	 * @param String $email the email to send the mail to
+	 * @param String $name the name of the individual
+	 */
 	public function AddCc($email, $name = "")
 	{
 		if($this->cc == null)
@@ -215,9 +237,11 @@ class DOTMailer
 		$this->cc[] = $tmp;
 	}
 
-	/*
-	this function adds a Bcc to the mail, this is optional
-	*/
+	/**
+	 * this function adds a Bcc to the mail, this is optional
+	 * @param String $email the email to send the mail to
+	 * @param String $name the name of the individual
+	 */
 	public function AddBcc($email, $name = "")
 	{
 		if($this->bcc == null)
@@ -228,8 +252,20 @@ class DOTMailer
 		$this->bcc[] = $tmp;
 	}
 
-	// this function adds an attachment to the email
-	// NOTE: file_get_contents WILL parse php before you get it
+	/**
+	 * this function adds an attachment to the email.
+	 * 
+	 * You should not have to change the $type, unless you are working with an application
+	 * that depends on it
+	 * 
+	 * @param String $path the path to the file
+	 * @param String $name the name of the attachment
+	 * @param String $type the MIME type of the attachment.
+	 * 
+	 * @see Send
+	 * 
+	 * @note file_get_contents WILL parse php before you get it
+	 */
 	public function AddAtachment($path, $name, $type = "application/octet-stream")
 	{
 		if(!file_exists($path))
@@ -244,7 +280,20 @@ class DOTMailer
 		$this->attachments[] = $tmp;
 	}
 
-	// this function adds an attachment of plain text or data. it WILL handle the base64_encode for you
+	/**
+	 * this function adds an attachment of plain text or data. it WILL handle the base64_encode for you.
+	 * 
+	 * You should not have to change the $type, unless you are working with an application
+	 * that depends on it
+	 * 
+	 * @param Binary $data the data stream you want to attach
+	 * @param String $name the name of the attachment
+	 * @param String $type the MIME type of the attachment.
+	 * 
+	 * @see Send
+	 * 
+	 * @note file_get_contents WILL parse php before you get it
+	 */
 	public function AddRawAttachment($data, $name, $type = "application/octet-stream")
 	{
 		if($this->attachments == null)
@@ -256,7 +305,9 @@ class DOTMailer
 		$this->attachments[] = $tmp;
 	}
 
-	// simple function to load a body from a file
+	/**
+	  * simple function to load a body from a file
+	  */ 
 	public function LoadBodyFromFile($path)
 	{
 		if(!file_exists($path))
@@ -277,23 +328,4 @@ class DOTMailer
 		
 		$this->Body = str_replace("[[{$key}]]", $value, $this->Body);
 	}
-}
-
-/*
-test code, this should not run if this file is included in another file
-it will only run if this page is run directly
-*/
-if(count(debug_backtrace()) == 0)
-{
-    $mailer = new DOTMailer();
-	$mailer->LoadBodyFromFile("test.html");
-	$mailer->ReplaceBodyKey("my_text", "Is Awesome!");
-	$mailer->IsHTML = true;
-	$mailer->AltText = "Please use an HTML browser to view this";
-	$mailer->AddTo("joseph@enablepoint.com");
-	$mailer->AddAtachment("index.html", "index.html");
-	$mailer->AddCc("test@test.com");
-	$mailer->AddCc("test@test.com");
-	echo $mailer->Body;
-	$mailer->Send();
 }
