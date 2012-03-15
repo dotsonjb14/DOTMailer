@@ -1,0 +1,12 @@
+1.0.0 
+Initial Release
+
+1.0.1
+Fixes:
+fixed alt text not being used when no attachment is sent.
+fixed DOTMailer::From was not being referenced, it was referencing DOTMailer::header which does not exist.
+
+1.0.2
+Changes:
+Added an option to not include alt text with html. Yahoo does not parse multipart messages very well so I made this option.
+You can use it by setting DOTMailer::NoAlt to true. The current example uses that option.
