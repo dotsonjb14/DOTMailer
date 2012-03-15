@@ -8,7 +8,7 @@
  * be using this. As it is a waste of resources when you can do a simple mail()
  * 
  * @author: Joseph Dotson (THTime)
- * @version: 1.0.1
+ * @version: 1.0.2
  * 
  * @copyright
  * Copyright 2012 Joseph Dotson
