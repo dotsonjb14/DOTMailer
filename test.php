@@ -10,6 +10,9 @@
  * 
  * @author Joseph Dotson (THTime)
  */
+
+require("DOTMailer.php");
+
 $cclist = array();
 $cclist[] = "cc1@example.com";
 $cclist[] = "cc2@example.com";
@@ -26,4 +29,6 @@ foreach ($cclist as $ccemail) {
 $mailer->LoadBodyFromFile("example.html"); // this loads the body to $this->Body
 $mailer->ReplaceBodyKey("last_name", "Harker");
 $mailer->AddRawAttachment($mailer->Body, "copy.html"); // attach a copy of the email for record keeping
+$mailer->IsHTML = true;
+$mailer->NoAlt = true;
 $mailer->Send();

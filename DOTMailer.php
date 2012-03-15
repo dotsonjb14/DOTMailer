@@ -47,6 +47,9 @@ class DOTMailer
 	public $IsHTML = false; //!< Whether or not the email is HTML
 	public $AltText = "This is a MIME encoded message."; //!< The HTML email alt text
 
+	// fixes
+	public $NoAlt = false; // for yahoo
+
 	/**
 	 * this function will generate and send the email.
 	 * it is NON destructive. so if it fails you can try again after you fix it
@@ -166,7 +169,7 @@ class DOTMailer
 			return $this->Body;
 
 		$body = "";
-		if($this->IsHTML)
+		if($this->IsHTML && !$this->NoAlt)
 		{
 			$body .= "--" . $this->mps . EOL;
 			$body .= "Content-Transfer-Encoding: 7bit".EOL.EOL;
