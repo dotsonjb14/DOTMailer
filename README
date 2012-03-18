@@ -1,1 +1,11 @@
 this is my (joseph dotson's) php emailing class
+
+I wrote this because doing attachments in PHP is way harder than it needs to be.
+
+If you see any issues, please let me know. You can message me here, and I will respond in time.
+
+If you find a bug please enter it into the issues section. I will find it and if it's possible I will fix it. 
+
+I will not be adding any vendor specific MIME. So if that's what you need please do not bother me with it.
+
+I only added the NoAlt fix because it is a valid option, and I needed it for work (yes, this IS used in production code...)
