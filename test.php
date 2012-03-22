@@ -23,7 +23,7 @@ $mailer = new DOTMailer();
 $mailer->AddTo("john@example.com");
 
 foreach ($cclist as $ccemail) {
-	$mailer->AddCc("", $ccemail);
+	$mailer->AddCc($ccemail);
 }
 
 $mailer->LoadBodyFromFile("example.html"); // this loads the body to $this->Body
