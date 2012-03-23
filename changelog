@@ -10,3 +10,7 @@ fixed DOTMailer::From was not being referenced, it was referencing DOTMailer::he
 Changes:
 Added an option to not include alt text with html. Yahoo does not parse multipart messages very well so I made this option.
 You can use it by setting DOTMailer::NoAlt to true. The current example uses that option.
+
+1.1.0 beta
+Changes:
+Started adding PEAR functionallity. (Please note, this probably does not work right now...)

@@ -6,9 +6,11 @@
  * Please make a note, unless you have a text/plain email with no attachments, it
  * WILL be sent as a multipart. If you do have that situation though, you should probably not
  * be using this. As it is a waste of resources when you can do a simple mail()
+ *
+ * PEAR mail is a sin, only use it when in dire circumstances
  * 
  * @author: Joseph Dotson (THTime)
- * @version: 1.0.2
+ * @version: beta 1.1.0
  * 
  * @copyright
  * Copyright 2012 Joseph Dotson
@@ -28,8 +30,16 @@
  */
 
 
-if(!defined("EOL"))
-	define("EOL", PHP_EOL);
+define("EOL", PHP_EOL); // I hate wasting 4 characters...
+
+// pear defines, you will need to fill these in yourself
+define("PEAR_SMTP", "localhost");
+define("PEAR_PORT", 25);
+define("PEAR_USE_AUTH", true);
+define("PEAR_USER", "");
+define("PEAR_PASS", "");
+
+define("USE_PEAR", false);
 
 class DOTMailer
 {
@@ -62,6 +72,12 @@ class DOTMailer
 		if($this->Body == null)
 			throw new Exception("No Body was set!", 1);
 		
+		if(USE_PEAR)
+		{
+			$this->_sendPear();
+			return;
+		}
+
 		// set is multipart here
 		if($this->attachments != null || $this->IsHTML)
 			$this->is_multi_part = true;
@@ -71,6 +87,72 @@ class DOTMailer
 		$body = $this->generate_body();
 		if(!mail($to, $this->Subject, $body, $header))
 			throw new Exception("Mail failed to send!", 1);
+	}
+
+	/**
+	 * I purosely didn't add any extra functions for this.
+	 * I did use some existing functions though.
+	 * I *could* make this more elegant, however I at least want some
+	 * decent speed.
+	 *
+	 * p.s. As long as PEAR doesn't add any useless garbage, this should all work
+	 */
+	protected function _sendPear()
+	{
+		require_once("Mail.php");
+
+		$to = $this->generate_to();
+
+		$headers = array();
+		if($this->From != null)
+			$headers["From"] = $this->From;
+
+		$headers["Subject"] = $this->Subject;
+
+		// get ccs
+		if($this->cc != null)
+		{
+			$cc = "";
+			foreach ($this->cc as $value) 
+			{
+				$name = $value["name"];
+				$email = $value["email"];
+				$cc .= "$name <{$email}>, ";
+			}
+			$headers["Cc"] = rtrim($cc, ", ");
+		}
+
+		// get ccs
+		if($this->bcc != null)
+		{
+			$bcc = "";
+			foreach ($this->bcc as $value) 
+			{
+				$name = $value["name"];
+				$email = $value["email"];
+				$bcc .= "$name <{$email}>, ";
+			}
+			$headers["Bcc"] = rtrim($bcc, ", ");
+		}
+
+		$headers["MIME-Version"] = "1.0";
+		$headers["Content-Type"] = ltrim($this->get_content_type(), "Content-Type: ");
+
+		$smtp_settings = array();
+		$smtp_settings["host"] = PEAR_SMTP;
+		$smtp_settings["auth"] = PEAR_USE_AUTH;
+		$smtp_settings["username"] = PEAR_USER;
+		$smtp_settings["password"] = PEAR_PASS;
+
+		$body = $this->generate_body();
+
+		$smtp = Mail::factory("smtp", $smtp_settings);
+
+		$mail = $smtp->send($to, $headers, $body);
+		if(PEAR::isError($mail))
+		{
+			echo $mail->getMessage();
+		}
 	}
 
 	/**
@@ -143,17 +225,17 @@ class DOTMailer
 	 */
 	protected function get_content_type()
 	{
-		$header = "";
+		$header = "Content-Type: ";
 		if(!$this->is_multi_part && !$this->IsHTML)
 		{
-			$header .= "Content-Type: text/plain; charset='iso-8859-1'";
+			$header .= "text/plain; charset='iso-8859-1'";
 		}
 		else
 		{
 			if($this->mps == null)
 				$this->mps = md5(time());
 
-			$header .= "Content-Type: multipart/mixed; boundary=\"".$this->mps."\"";
+			$header .= "multipart/mixed; boundary=\"".$this->mps."\"";
 		}
 
 		return $header;
