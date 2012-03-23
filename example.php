@@ -19,7 +19,7 @@ $cclist[] = "cc2@example.com";
 $cclist[] = "cc3@example.com";
 $cclist[] = "cc4@example.com";
 
-$mailer = Mailer::GetMailer("PEARMailer");
+$mailer = Mailer::GetMailer();
 $mailer->AddTo("john@example.com");
 
 foreach ($cclist as $ccemail) {
