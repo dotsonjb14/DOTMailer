@@ -13,7 +13,7 @@
 require_once("Mail.php");
 require_once("Mail/mime.php");
 
-define("PEAR_SMTP_HOST", "localhost.com");
+define("PEAR_SMTP_HOST", "localhost");
 define("PEAR_PORT", 25);
 define("PEAR_USE_AUTH", false);
 define("PEAR_USER", "");

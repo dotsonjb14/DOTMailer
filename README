@@ -9,5 +9,3 @@ If you find a bug please enter it into the issues section. I will find it and if
 I will not be adding any vendor specific MIME. So if that's what you need please do not bother me with it.
 
 I only added the NoAlt fix because it is a valid option, and I needed it for work (yes, this IS used in production code...)
-
-I have not tested sending in PEARMailer. I have checked the body, and it looked all fine. If someone wants to test it for me that would be awesome.
