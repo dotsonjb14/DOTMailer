@@ -3,7 +3,7 @@
 /**
  * this is the base class for mailers
  * 
- * @version 1.1.0 beta
+ * @version 1.1.0
  * @author Joseph Dotson (THTime)
  */
 
@@ -20,6 +20,7 @@ abstract class Mailer
 	public $Subject = ""; //!< The Subject of the email (optional)
 	public $IsHTML = false; //!< Whether or not the email is HTML
 	public $AltText = "This is a MIME encoded message."; //!< The HTML email alt text
+	public $NoAlt = true;
 
 	// you can see the docs in drivers/DOTMailer.php
 	// I don't want them here to make adding drivers easier.

@@ -35,9 +35,6 @@ class DOTMailer extends Mailer
 	protected $mps = null; // the multi part separator
 	protected $is_multi_part = false;
 
-	// fixes
-	public $NoAlt = true; // for yahoo
-
 	/**
 	 * this function will generate and send the email.
 	 * it is NON destructive. so if it fails you can try again after you fix it

@@ -13,11 +13,11 @@
 require_once("Mail.php");
 require_once("Mail/mime.php");
 
-define("PEAR_SMTP_HOST", "mail.enablepoint.com");
+define("PEAR_SMTP_HOST", "localhost.com");
 define("PEAR_PORT", 25);
-define("PEAR_USE_AUTH", true);
-define("PEAR_USER", "joseph@enablepoint.com");
-define("PEAR_PASS", "Joseph817");
+define("PEAR_USE_AUTH", false);
+define("PEAR_USER", "");
+define("PEAR_PASS", "");
 
 class PEARMailer extends Mailer
 {
@@ -26,11 +26,9 @@ class PEARMailer extends Mailer
 	protected $bcc = null;
 	protected $attachments = null;
 
-	// fixes
-	public $NoAlt = true; // for yahoo
-
-	// 
-	public function Send($smtp_settings = null)
+	// this function will send with the default smtp settings
+	// feel free to change this. for extra settings
+	public function Send()
 	{
 		$smtp_settings = array();
 		$smtp_settings["host"] = PEAR_SMTP_HOST;
