@@ -7,8 +7,7 @@
  * WILL be sent as a multipart. If you do have that situation though, you should probably not
  * be using this. As it is a waste of resources when you can do a simple mail()
  * 
- * @author: Joseph Dotson (THTime)
- * @version: beta 1.1.0
+ * @author Joseph Dotson (THTime)
  * 
  * @copyright
  * Copyright 2012 Joseph Dotson

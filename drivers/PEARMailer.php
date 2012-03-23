@@ -2,6 +2,12 @@
 
 /**
  * this is my PEAR smtp implementation
+ * 
+ * in order to use this you need
+ * pear/Mail
+ * pear/Mail_Mime
+ * 
+ * @author Joseph Dotson (THTime)
  */
 
 define("PEAR_PATH", "Mail.php");

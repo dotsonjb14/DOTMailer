@@ -3,7 +3,8 @@
 /**
  * this is the base class for mailers
  * 
- * 
+ * @version 1.1.0 dev
+ * @author Joseph Dotson (THTime)
  */
 
 define("EOL", PHP_EOL); // I hate wasting 4 characters...
