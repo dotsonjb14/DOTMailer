@@ -11,6 +11,7 @@ Changes:
 Added an option to not include alt text with html. Yahoo does not parse multipart messages very well so I made this option.
 You can use it by setting DOTMailer::NoAlt to true. The current example uses that option.
 
-1.1.0 beta
+1.1.0 dev1
 Changes:
-Started adding PEAR functionallity. (Please note, this probably does not work right now...)
+I started to move implementations to a separate folder, accessed by a factory method.
+This will be a slight change (one line) and old code will work with the new version
