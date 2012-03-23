@@ -74,7 +74,7 @@ class PEARMail extends Mailer
 	}
 
 	// this is a slighly modified version from DOTMailer
-	public function AddAtachment($path, $name, $type = "application/octet-stream")
+	public function AddAttachment($path, $name, $type = "application/octet-stream")
 	{
 		if(!file_exists($path))
 			throw new Exception("File does not exist!", 1);

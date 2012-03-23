@@ -30,5 +30,4 @@ $mailer->LoadBodyFromFile("example.html"); // this loads the body to $this->Body
 $mailer->ReplaceBodyKey("last_name", "Harker");
 $mailer->AddRawAttachment($mailer->Body, "copy.html"); // attach a copy of the email for record keeping
 $mailer->IsHTML = true;
-$mailer->NoAlt = true;
 $mailer->Send();

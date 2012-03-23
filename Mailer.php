@@ -27,7 +27,7 @@ abstract class Mailer
 	public abstract function AddCc($email, $name = "");
 	public abstract function AddBcc($email, $name = "");
 	public abstract function AddAtachment($path, $name, $type = "application/octet-stream");
-	public abstract function AddRawAtachment($data, $name, $type = "application/octet-stream");
+	public abstract function AddRawAttachment($data, $name, $type = "application/octet-stream");
 
 	/**
 	  * simple function to load a body from a file

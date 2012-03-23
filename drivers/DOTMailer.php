@@ -37,7 +37,7 @@ class DOTMailer extends Mailer
 	protected $is_multi_part = false;
 
 	// fixes
-	public $NoAlt = false; // for yahoo
+	public $NoAlt = true; // for yahoo
 
 	/**
 	 * this function will generate and send the email.
