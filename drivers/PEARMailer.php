@@ -49,34 +49,35 @@ class PEARMail extends Mailer
 		throw new Exception("Not yet implemented", 1);
 	}
 
+	// do DOTMailer like this
 	public function AddTo($email, $name = "")
 	{
 		if($this->to == null)
-			$this->to = array();
-		$tmp = array();
-		$tmp["email"] = $email;
-		$tmp["name"] = $name;
-		$this->to[] = $tmp;
+			$this->to = "";
+		else
+			$this->to .= ", ";
+
+		$this->to .= "{$name} <{$email}>";
 	}
 
 	public function AddCc($email, $name = "")
 	{
 		if($this->cc == null)
-			$this->cc = array();
-		$tmp = array();
-		$tmp["email"] = $email;
-		$tmp["name"] = $name;
-		$this->cc[] = $tmp;
+			$this->cc = "";
+		else
+			$this->cc .= ", ";
+
+		$this->cc .= "{$name} <{$email}>";
 	}
 
 	public function AddBcc($email, $name = "")
 	{
 		if($this->bcc == null)
-			$this->bcc = array();
-		$tmp = array();
-		$tmp["email"] = $email;
-		$tmp["name"] = $name;
-		$this->bcc[] = $tmp;
+			$this->bcc = "";
+		else
+			$this->bcc .= ", ";
+
+		$this->bcc .= "{$name} <{$email}>";
 	}
 
 	// this is a slighly modified version from DOTMailer
@@ -94,9 +95,15 @@ class PEARMail extends Mailer
 		$this->attachments[] = $tmp;
 	}
 
+	// do a if(isset($attachment["data"])) to check if it's raw
 	public function AddRawAtachment($data, $name, $type = "application/octet-stream")
 	{
-		// temporary
-		throw new Exception("PEAR Mail_mime does not support raw attachments.", 1);
+		if($this->attachments == null)
+			$this->attachments = array();
+
+		$tmp["data"] = $data;
+		$tmp["name"] = $name;
+		$tmp["type"] = $type;
+		$this->attachments[] = $tmp;
 	}
 }
