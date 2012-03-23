@@ -318,7 +318,7 @@ class DOTMailer extends Mailer
 	 * 
 	 * @note file_get_contents WILL parse php before you get it
 	 */
-	public function AddAtachment($path, $name, $type = "application/octet-stream")
+	public function AddAttachment($path, $name, $type = "application/octet-stream")
 	{
 		if(!file_exists($path))
 			throw new Exception("File does not exist!", 1);

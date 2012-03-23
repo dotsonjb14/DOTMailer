@@ -15,3 +15,7 @@ You can use it by setting DOTMailer::NoAlt to true. The current example uses tha
 Changes:
 I started to move implementations to a separate folder, accessed by a factory method.
 This will be a slight change (one line) and old code will work with the new version
+
+1.1.0 beta
+Changes:
+I finished the proper PEAR implementation.

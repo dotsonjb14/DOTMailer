@@ -10,6 +10,4 @@ I will not be adding any vendor specific MIME. So if that's what you need please
 
 I only added the NoAlt fix because it is a valid option, and I needed it for work (yes, this IS used in production code...)
 
-I started adding PEAR functionality, however I probably won't be finishing this soon. As I do not have a working SMTP server to test this. If someone wants to finish this, I would be happy to accept.
-
-NOTE: you can safely use the new dev version as long as you don't use PEARMailer. DOTMailer should work fine with the new enhancements. If you NEED PEARMailer, than you might just want to wait, or implement something yourself (most of the utility work is already done).
+I have not tested sending in PEARMailer. I have checked the body, and it looked all fine. If someone wants to test it for me that would be awesome.

@@ -3,7 +3,7 @@
 /**
  * this is the base class for mailers
  * 
- * @version 1.1.0 dev
+ * @version 1.1.0 beta
  * @author Joseph Dotson (THTime)
  */
 
@@ -27,7 +27,7 @@ abstract class Mailer
 	public abstract function AddTo($email, $name = "");
 	public abstract function AddCc($email, $name = "");
 	public abstract function AddBcc($email, $name = "");
-	public abstract function AddAtachment($path, $name, $type = "application/octet-stream");
+	public abstract function AddAttachment($path, $name, $type = "application/octet-stream");
 	public abstract function AddRawAttachment($data, $name, $type = "application/octet-stream");
 
 	/**

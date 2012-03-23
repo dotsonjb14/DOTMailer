@@ -10,22 +10,44 @@
  * @author Joseph Dotson (THTime)
  */
 
-define("PEAR_PATH", "Mail.php");
+require_once("Mail.php");
+require_once("Mail/mime.php");
 
-define("PEAR_SMTP_HOST", "localhost");
+define("PEAR_SMTP_HOST", "mail.enablepoint.com");
 define("PEAR_PORT", 25);
 define("PEAR_USE_AUTH", true);
-define("PEAR_USER", "");
-define("PEAR_PASS", "");
+define("PEAR_USER", "joseph@enablepoint.com");
+define("PEAR_PASS", "Joseph817");
 
-class PEARMail extends Mailer
+class PEARMailer extends Mailer
 {
 	protected $to = null;
 	protected $cc = null;
 	protected $bcc = null;
 	protected $attachments = null;
 
-	public function Send()
+	// fixes
+	public $NoAlt = true; // for yahoo
+
+	// 
+	public function Send($smtp_settings = null)
+	{
+		$smtp_settings = array();
+		$smtp_settings["host"] = PEAR_SMTP_HOST;
+		$smtp_settings["port"] = PEAR_PORT;
+		$smtp_settings["auth"] = PEAR_USE_AUTH;
+		$smtp_settings["username"] = PEAR_USER;
+		$smtp_settings["password"] = PEAR_PASS;
+
+		$this->SendWithSettings($smtp_settings);
+	}
+
+	/**
+	 * This function is used to send custom settings to smtp on a runtime
+	 * basis. Send() calls this function after creating the smtp settings based on
+	 * the constants
+	 */
+	public function SendWithSettings($smtp_settings)
 	{
 		if($this->to == null)
 			throw new Exception("No To emails set!", 1);
@@ -38,15 +60,51 @@ class PEARMail extends Mailer
 			throw new Exception("No From was set!", 1);
 
 		$headers = array();
+		$headers["To"] = $this->to;
+		if($this->cc)
+			$headers["Cc"] = $this->cc;
+		if($this->bcc)
+			$headers["Bcc"] = $this->bcc;
+		$headers["Subject"] = $this->Subject;
+		$headers["From"] = $this->From;
 
-		$smtp_settings = array();
-		$smtp_settings["host"] = PEAR_SMTP_HOST;
-		$smtp_settings["port"] = PEAR_PORT;
-		$smtp_settings["auth"] = PEAR_USE_AUTH;
-		$smtp_settings["username"] = PEAR_USER;
-		$smtp_settings["password"] = PEAR_PASS;
+		$mime = new Mail_Mime(array('eol' => EOL));
+		if($this->IsHTML)
+		{
+			if(!$this->NoAlt)
+				$mime->setTXTBody($this->AltText);
+			$mime->setHTMLBody($this->Body);
+		}
+		else
+		{
+			$mime->setTXTBody($this->Body);
+		}
 
-		throw new Exception("Not yet implemented", 1);
+		// add attachments
+		if($this->attachments != null)
+		{
+			foreach ($this->attachments as $attachment) 
+			{
+				if(isset($attachment["data"]))
+				{
+					// raw attachment
+					$mime->AddAttachment($attachment["data"], $attachment["type"], $attachment["name"], false);
+				}
+				else
+				{
+					$mime->AddAttachment($attachment["path"], $attachment["type"], $attachment["name"]);
+				}
+			}
+		}
+
+		$body = $mime->get();
+		$headers = $mime->headers($headers);
+		
+		$mail =& Mail::factory("smtp", $smtp_settings);
+		$mail->send($this->to, $headers, $body);
+
+		if (PEAR::isError($mail))
+			throw new Exception($mail->getMessage(), 1);
 	}
 
 	// do DOTMailer like this
@@ -96,7 +154,7 @@ class PEARMail extends Mailer
 	}
 
 	// do a if(isset($attachment["data"])) to check if it's raw
-	public function AddRawAtachment($data, $name, $type = "application/octet-stream")
+	public function AddRawAttachment($data, $name, $type = "application/octet-stream")
 	{
 		if($this->attachments == null)
 			$this->attachments = array();

@@ -19,8 +19,8 @@ $cclist[] = "cc2@example.com";
 $cclist[] = "cc3@example.com";
 $cclist[] = "cc4@example.com";
 
-$mailer = Mailer::GetMailer();
-$mailer->AddTo("john@example.com");
+$mailer = Mailer::GetMailer("PEARMailer");
+$mailer->AddTo("dotsonjb14@gmail.com");
 
 foreach ($cclist as $ccemail) {
 	$mailer->AddCc($ccemail);
@@ -30,4 +30,5 @@ $mailer->LoadBodyFromFile("example.html"); // this loads the body to $this->Body
 $mailer->ReplaceBodyKey("last_name", "Harker");
 $mailer->AddRawAttachment($mailer->Body, "copy.html"); // attach a copy of the email for record keeping
 $mailer->IsHTML = true;
+$mailer->From = "no-reply@example.com";
 $mailer->Send();
