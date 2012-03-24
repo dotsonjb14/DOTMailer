@@ -8,6 +8,22 @@
  * pear/Mail_Mime
  * 
  * @author Joseph Dotson (THTime)
+ * 
+ * @copyright
+ * Copyright 2012 Joseph Dotson
+ * 
+ * DOTMailer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 require_once("Mail.php");
@@ -44,6 +60,8 @@ class PEARMailer extends Mailer
 	 * This function is used to send custom settings to smtp on a runtime
 	 * basis. Send() calls this function after creating the smtp settings based on
 	 * the constants
+	 * 
+	 * @see Send()
 	 */
 	public function SendWithSettings($smtp_settings)
 	{
